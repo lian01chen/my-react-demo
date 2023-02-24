@@ -1,0 +1,12 @@
+input {
+  margin-left: 10px;
+  background-color: #282c34;
+  border: none;
+  border-bottom: 1px solid #fff;
+  color: #fff;
+  font-size: 14px;
+}
+
+input:focus {
+  outline: none;
+}
