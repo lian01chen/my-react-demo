@@ -1,5 +1,27 @@
 import React from 'react';
-import { store, providerContext, connect } from './redux';
+import { createStore, connect } from './redux';
+import { providerContext } from './context';
+
+// reducer,规范state创建的reducer纯函数
+const reducer = (state, action) => {
+  if (action.type === 'updateUser') {
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        ...action.payload
+      }
+    }
+  }
+  return state;
+}
+
+const initState = {
+  user: { name: 'frank' },
+  group: { name: 'fe' }
+}
+
+const store = createStore(reducer, initState)
 
 export default function Try() {
   return (

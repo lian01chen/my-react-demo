@@ -1,12 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
+import { providerContext } from './context';
 
-export const providerContext = React.createContext(null);
-
-export const store = {
-  state: {
-    user: { name: 'frank' },
-    group: { name: 'fe' }
-  },
+const store = {
+  state: undefined,
+  reducer: undefined,
   setState(newState) {
     store.state = newState;
     store.listeners.map(fn => fn(store.state));
@@ -22,6 +19,11 @@ export const store = {
   }
 }
 
+export const createStore = (reducers, initState) => {
+  store.reducer = reducers;
+  store.state = initState;
+  return store;
+}
 
 ///  比较更新
 function hasChanged(pre, nex) {
@@ -42,7 +44,7 @@ export const connect = (selector, mapDispatchToProps) => (Component) => {
 
     ///dispatch,规范setState流程
     const dispatch = (action) => {
-      setState(reducer(state, action));
+      setState(store.reducer(state, action));
     }
 
     const data = (selector && typeof selector === 'function') ? selector(state) : { state };
@@ -65,19 +67,4 @@ export const connect = (selector, mapDispatchToProps) => (Component) => {
       <Component {...props} {...data}  {...dispatchers} />
     )
   }
-}
-
-
-// reducer,规范state创建的reducer纯函数
-export function reducer(state, action) {
-  if (action.type === 'updateUser') {
-    return {
-      ...state,
-      user: {
-        ...state.user,
-        ...action.payload
-      }
-    }
-  }
-  return state;
 }
