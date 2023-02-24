@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStore, connect } from './redux';
-import { providerContext } from './context';
+import { Provider } from './context';
 
 // reducer,规范state创建的reducer纯函数
 const reducer = (state, action) => {
@@ -25,7 +25,7 @@ const store = createStore(reducer, initState)
 
 export default function Try() {
   return (
-    <providerContext.Provider value={store}>
+    <Provider store={store}>
       <div>
         have a try!
       </div>
@@ -35,7 +35,7 @@ export default function Try() {
       <CompB />
       <hr />
       <CompC />
-    </providerContext.Provider>
+    </Provider>
   )
 }
 
